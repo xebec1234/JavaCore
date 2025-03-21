@@ -19,13 +19,19 @@ import Loading from '@/components/ui/loading'
 const VerificationPage = () => {
     const router = useRouter()
 
-    const { data: verify, isLoading: verifyLoading } = useGetVerifiedClientQuery(navigator.userAgent);
+    const { data: verify, error, isLoading: verifyLoading } = useGetVerifiedClientQuery(navigator.userAgent, {
+      pollingInterval: 5000,
+    });
+
+    const errorType = error ? ("data" in error ? (error.data as { errorType: string }).errorType : error) : "No error";
     
     React.useEffect(() => {
+      if(errorType !== "No Error") {
         if(verify?.success) {
-            router.push('/')
-        }
-    }, [router, verify?.success])
+          router.push('/')
+      }
+      }
+    }, [router, verify?.success, errorType])
     
 
     const { toast } = useToast()
@@ -142,9 +148,9 @@ const VerificationPage = () => {
         <Button
           onClick={handleSendCode}
           className="bg-main mt-3 hover:bg-follow w-full"
-          disabled={cooldown > 0}
+          disabled={cooldown > 0 || verifyLoading}
         >
-          {cooldown > 0 ? `Wait ${cooldown}s to Send Again` : "Send Verification Code"}
+          {verifyLoading ? "Loading..." : cooldown > 0 ? `Wait ${cooldown}s to Send Again` : "Send Verification Code"}
         </Button>
         </div>
     </div>
