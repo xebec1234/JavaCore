@@ -74,12 +74,12 @@ const AnalysisAndReportForm = () => {
   const handleSearch = debounce(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
-    
+
       setSearchTerm(value);
-      if(localStorage.getItem("jobNo")) {
+      if (localStorage.getItem("jobNo")) {
         setSelectedComponent(null);
         setSelectedEquipment(null);
-        setRouteComponents([])
+        setRouteComponents([]);
 
         localStorage.removeItem("jobNo");
       }
@@ -113,12 +113,12 @@ const AnalysisAndReportForm = () => {
   } | null>(null);
 
   React.useEffect(() => {
-    const jobNo = localStorage.getItem("jobNo")
-    if(jobNo){
-      setSearchTerm(jobNo || "")
-      setSelectedJob(jobs[0])
+    const jobNo = localStorage.getItem("jobNo");
+    if (jobNo) {
+      setSearchTerm(jobNo || "");
+      setSelectedJob(jobs[0]);
     }
-  },[jobs, searchTerm])
+  }, [jobs, searchTerm]);
 
   const { data: routeData, isFetching: routeLoading } =
     useGetRouteEquipmentListQuery(selectedJob?.inspectionRoute ?? "", {
@@ -266,16 +266,19 @@ const AnalysisAndReportForm = () => {
                           field.onChange(value);
                         }}
                         defaultValue={field.value}
-                        value={field.value || localStorage.getItem("jobNo") || ""}
+                        value={
+                          field.value || localStorage.getItem("jobNo") || ""
+                        }
                       >
                         <FormControl>
-                            {jobsLoading && localStorage.getItem("jobNo")?.trim() ? (
-                              <Skeleton className="h-9 w-full"/>
-                            ) : (
-                              <SelectTrigger disabled={jobsLoading}>
-                                <SelectValue placeholder={"Select Job Number"} />
-                              </SelectTrigger>
-                            )}
+                          {jobsLoading &&
+                          localStorage.getItem("jobNo")?.trim() ? (
+                            <Skeleton className="h-9 w-full" />
+                          ) : (
+                            <SelectTrigger disabled={jobsLoading}>
+                              <SelectValue placeholder={"Select Job Number"} />
+                            </SelectTrigger>
+                          )}
                         </FormControl>
                         <FormMessage />
                         <SelectContent>
@@ -438,6 +441,12 @@ const AnalysisAndReportForm = () => {
           className={`w-full lg:w-1/3 rounded-xl bg-white flex flex-col p-5 shadow-lg ${
             hideList && "hidden"
           }`}
+          style={{
+            position: "sticky",
+            top: "10px",
+            maxHeight: "96vh",
+            overflowY: "auto",
+          }}
         >
           <h2 className="font-bold text-lg">
             {selectedEquipment ? selectedEquipment.name : "Equipment List"}
@@ -455,56 +464,58 @@ const AnalysisAndReportForm = () => {
             </Button>
           )}
 
-          {isLoading || routeLoading ? (
-            <div className="mt-8 space-y-2">
-              {[...Array(5)].map((_, index) => (
-                <Skeleton
-                  key={index}
-                  className="w-full h-[35px] border-t animate-pulse"
-                  style={{ animationDelay: `${index * 0.2}s` }}
-                />
-              ))}
-            </div>
-          ) : !selectedEquipment ? (
-            <ul className="mt-8 space-y-2">
-              {equipmentList.map((equipment) => (
-                <li
-                  key={equipment.id}
-                  className="cursor-pointer hover:bg-gray-100 p-2 border rounded"
-                  onClick={() => setSelectedEquipment(equipment)}
-                >
-                  {equipment.name}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <ul className="mt-2 space-y-2">
-              {routeComponents.map((routeComponent) => (
-                <li
-                  key={routeComponent.id}
-                  className={`p-2 border rounded cursor-pointer ${
-                    selectedComponent?.id === routeComponent.id
-                      ? "bg-red-400 text-white"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setSelectedComponent({
-                      id: routeComponent.id,
-                      name: routeComponent.component.name,
-                      routeComponentID: routeComponent?.id,
-                      component: routeComponent?.component,
-                      // recommendations: routeComponent.recommendations || [],
-                      // action: routeComponent.action ?? null,
-                      // temperatures: routeComponent.temperatures || [],
-                      // oilAnalyses: routeComponent.oilAnalyses || [],
-                    })
-                  }
-                >
-                  {routeComponent.component.name}
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className="mt-4 max-h-full overflow-y-auto">
+            {isLoading || routeLoading ? (
+              <div className="mt-8 space-y-2">
+                {[...Array(5)].map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    className="w-full h-[35px] border-t animate-pulse"
+                    style={{ animationDelay: `${index * 0.2}s` }}
+                  />
+                ))}
+              </div>
+            ) : !selectedEquipment ? (
+              <ul className="mt-8 space-y-2">
+                {equipmentList.map((equipment) => (
+                  <li
+                    key={equipment.id}
+                    className="cursor-pointer hover:bg-gray-100 p-2 border rounded"
+                    onClick={() => setSelectedEquipment(equipment)}
+                  >
+                    {equipment.name}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <ul className="mt-2 space-y-2">
+                {routeComponents.map((routeComponent) => (
+                  <li
+                    key={routeComponent.id}
+                    className={`p-2 border rounded cursor-pointer ${
+                      selectedComponent?.id === routeComponent.id
+                        ? "bg-red-400 text-white"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      setSelectedComponent({
+                        id: routeComponent.id,
+                        name: routeComponent.component.name,
+                        routeComponentID: routeComponent?.id,
+                        component: routeComponent?.component,
+                        // recommendations: routeComponent.recommendations || [],
+                        // action: routeComponent.action ?? null,
+                        // temperatures: routeComponent.temperatures || [],
+                        // oilAnalyses: routeComponent.oilAnalyses || [],
+                      })
+                    }
+                  >
+                    {routeComponent.component.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
 
         <div
