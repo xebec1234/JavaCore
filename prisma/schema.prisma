@@ -1,0 +1,335 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Job {
+  id              String    @id @default(uuid())
+  no              Int       @unique @default(autoincrement())
+  status          String    @default("Waiting for Analysis")
+  userId          String    @map("user_id")
+  area            String
+  dateSurveyed    DateTime
+  jobNumber       String    @unique
+  poNumber        String?
+  woNumber        String?
+  reportNumber    String?
+  jobDescription  String
+  method          String
+  inspector       String
+  analyst         String?
+  reviewer        String?
+  dateFinished    DateTime?
+  inspectionRoute String
+  equipmentUse    String
+  dateRegistered  DateTime  @default(now())
+  yearWeekNumber  String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  routeList RouteList @relation(fields: [inspectionRoute], references: [id], onDelete: Cascade)
+
+  @@map("jobs")
+}
+
+// model Account {
+//   id                String  @id @default(cuid())
+//   userId            String  @map("user_id")
+//   type              String
+//   provider          String
+//   providerAccountId String  @map("provider_account_id")
+//   refresh_token     String? @db.Text
+//   access_token      String? @db.Text
+//   expires_at        Int?
+//   token_type        String?
+//   scope             String?
+//   id_token          String? @db.Text
+//   session_state     String?
+
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   @@unique([provider, providerAccountId])
+//   @@map("accounts")
+// }
+
+// model Session {
+//   id           String   @id @default(cuid())
+//   sessionToken String   @unique @map("session_token")
+//   userId       String   @map("user_id")
+//   expires      DateTime
+//   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   @@map("sessions")
+// }
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?   @unique
+  email         String?   @unique
+  password      String?
+  role          String    @default("user")
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  otp           String?
+  otpExpires    DateTime?
+  otpCooldown   DateTime?
+
+  // accounts              Account[]
+  // sessions              Session[]
+  verifiedDevices       VerifiedDevice[]
+  RouteComponentDetails RouteComponentDetails[]
+  jobs                  Job[]
+  RouteList             RouteList[]
+  RouteComponentImage   RouteComponentImage[]
+  RouteComponentFigures RouteComponentFigures[]
+  RouteComponentAction  RouteComponentAction[]
+  RouteComponentNote    RouteComponentNote[]
+
+  @@map("users")
+}
+
+model VerifiedDevice {
+  id         String  @id @default(cuid())
+  userId     String   @map("user_id")
+  userAgent  String
+  addedAt    DateTime @default(now())
+
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Area {
+  id       String  @id @default(cuid())
+  name     String
+  isDelete Boolean @default(false)
+
+  equipmentGroups  EquipmentGroup[]
+  RouteMachineList RouteMachineList[]
+
+  @@map("area")
+}
+
+model EquipmentGroup {
+  id       String  @id @default(cuid())
+  name     String
+  areaId   String?
+  isDelete Boolean @default(false)
+
+  area             Area?              @relation(fields: [areaId], references: [id], onDelete: Cascade)
+  equipmentNames   EquipmentName[]
+  RouteMachineList RouteMachineList[]
+
+  @@map("equipmentgroup")
+}
+
+model EquipmentName {
+  id       String  @id @default(cuid())
+  name     String
+  groupId  String?
+  isDelete Boolean @default(false)
+
+  group              EquipmentGroup?      @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  components         Component[]
+  RouteEquipmentName RouteEquipmentName[]
+
+  @@map("equipmentname")
+}
+
+model Component {
+  id              String  @id @default(cuid())
+  name            String
+  equipmentNameId String?
+  isDelete        Boolean @default(false)
+
+  equipmentName         EquipmentName?          @relation(fields: [equipmentNameId], references: [id], onDelete: Cascade)
+  routeComponent        RouteComponent[]
+  RouteComponentDetails RouteComponentDetails[]
+  RouteComponentImage   RouteComponentImage[]
+  RouteComponentFigures RouteComponentFigures[]
+  RouteComponentAction  RouteComponentAction[]
+  RouteComponentNote    RouteComponentNote[]
+
+  @@map("component")
+}
+
+model RouteList {
+  id        String   @id @default(uuid())
+  clientId  String
+  routeName String
+  isUsed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [clientId], references: [id])
+
+  Job      Job[]
+  machines RouteMachineList[]
+
+  @@map("routes")
+}
+
+model RouteMachineList {
+  id               String  @id @default(uuid())
+  routeId          String
+  areaId           String?
+  equipmentGroupId String?
+
+  RouteList      RouteList       @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  area           Area?           @relation(fields: [areaId], references: [id], onDelete: Cascade)
+  equipmentGroup EquipmentGroup? @relation(fields: [equipmentGroupId], references: [id], onDelete: Cascade)
+
+  routeEquipmentNames RouteEquipmentName[]
+  routeComponents     RouteComponent[]
+
+  @@map("route_machine_list")
+}
+
+model RouteEquipmentName {
+  id              String @id @default(uuid())
+  routeMachineId  String
+  equipmentNameId String
+
+  routeMachine  RouteMachineList @relation(fields: [routeMachineId], references: [id], onDelete: Cascade)
+  equipmentName EquipmentName?   @relation(fields: [equipmentNameId], references: [id], onDelete: Cascade)
+
+  RouteComponent RouteComponent[]
+
+  @@map("route_equipment_name")
+}
+
+model RouteComponent {
+  id               String @id @default(uuid())
+  routeMachineId   String
+  clientId         String
+  componentId      String
+  routeEquipmentId String
+
+  routeMachine   RouteMachineList   @relation(fields: [routeMachineId], references: [id], onDelete: Cascade)
+  component      Component          @relation(fields: [componentId], references: [id], onDelete: Cascade)
+  routeEquipment RouteEquipmentName @relation(fields: [routeEquipmentId], references: [id], onDelete: Cascade)
+
+  comments        RouteComponentComment[]
+  recommendations RouteComponentRecommendation[]
+  temperatures    RouteComponentTemperature[]
+  oilAnalyses     RouteComponentOilAnalysis[]
+
+  @@map("route_component")
+}
+
+model RouteComponentComment {
+  id               String   @id @default(uuid())
+  routeComponentId String
+  severity         String
+  comment          String
+  createdAt        DateTime @default(now())
+
+  routeComponent RouteComponent @relation(fields: [routeComponentId], references: [id], onDelete: Cascade)
+
+  @@map("route_component_comment")
+}
+
+model RouteComponentRecommendation {
+  id               String   @id @default(uuid())
+  routeComponentId String
+  priority         String
+  recommendation   String
+  createdAt        DateTime @default(now())
+
+  routeComponent RouteComponent @relation(fields: [routeComponentId], references: [id], onDelete: Cascade)
+
+  @@map("route_component_recommendation")
+}
+
+model RouteComponentTemperature {
+  id               String   @id @default(uuid())
+  routeComponentId String
+  temperature      Float
+  createdAt        DateTime @default(now())
+
+  routeComponent RouteComponent @relation(fields: [routeComponentId], references: [id], onDelete: Cascade)
+
+  @@map("route_component_temperature")
+}
+
+model RouteComponentOilAnalysis {
+  id               String   @id @default(uuid())
+  routeComponentId String
+  analysis         String
+  createdAt        DateTime @default(now())
+
+  routeComponent RouteComponent @relation(fields: [routeComponentId], references: [id], onDelete: Cascade)
+
+  @@map("route_component_oil_analysis")
+}
+
+model RouteComponentAction {
+  id          String   @id @default(cuid())
+  clientId    String
+  componentId String
+  action      String
+  woNumber    String?
+  createdAt   DateTime @default(now())
+
+  client    User      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  component Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
+
+  @@map("route_component_action")
+}
+
+model RouteComponentNote {
+  id          String   @id @default(cuid())
+  clientId    String
+  componentId String
+  note        String
+  analyst     String?
+  createdAt   DateTime @default(now())
+
+  client    User      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  component Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
+
+  @@map("route_component_note")
+}
+
+model RouteComponentDetails {
+  id          String @id @default(cuid())
+  clientId    String
+  componentId String
+  header      String
+  value       String
+
+  client    User      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  component Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
+
+  @@map("route_component_details")
+}
+
+model RouteComponentImage {
+  id          String @id @default(cuid())
+  clientId    String
+  componentId String
+  image       String
+
+  client    User      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  component Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
+
+  @@map("route_component_Details")
+}
+
+model RouteComponentFigures {
+  id          String @id @default(cuid())
+  clientId    String
+  componentId String
+  figures     String
+
+  client    User      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  component Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
+}
