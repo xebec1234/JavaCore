@@ -19,9 +19,7 @@ import Loading from '@/components/ui/loading'
 const VerificationPage = () => {
     const router = useRouter()
 
-    const { data: verify, error, isLoading: verifyLoading } = useGetVerifiedClientQuery(navigator.userAgent, {
-      pollingInterval: 5000,
-    });
+    const { data: verify, error, isLoading: verifyLoading } = useGetVerifiedClientQuery(navigator.userAgent);
 
     const errorType = error ? ("data" in error ? (error.data as { errorType: string }).errorType : error) : "No error";
     

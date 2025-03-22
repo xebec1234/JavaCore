@@ -35,6 +35,7 @@ export async function POST() {
             data: {
                 otp: code,
                 otpCooldown: new Date(now.getTime() + 60 * 1000),
+                otpExpires: new Date(now.getTime() + 5 * 60 * 1000)
             }
         })     
 

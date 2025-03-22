@@ -17,9 +17,16 @@ export async function POST(req: Request) {
                 id: session.user.id
             },
             select: {
-                otp: true
+                otp: true,
+                otpExpires: true
             }
-        })     
+        }) 
+        
+        const now = new Date();  
+
+        if(code?.otpExpires && new Date(code.otpExpires).getTime() < now.getTime()) {
+            return NextResponse.json({ message: 'OTP Expired', success: false}, { status: 400 });
+        }
 
         if(otp !== code?.otp) {
             return NextResponse.json({ message: 'Invalid OTP', success: false}, { status: 400 });
