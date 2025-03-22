@@ -49,8 +49,6 @@ const AnalystNoteDialog: React.FC<AnalystNoteProps> = ({
       note,
     };
 
-    console.log("Payload:", payload);
-
     try {
       RouteComponentNoteSchema.parse(payload);
 

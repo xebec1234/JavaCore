@@ -25,7 +25,6 @@ const ExportClient = ({
       skip: !routeMachineId,
     });
 
-  console.log("euqipmentReport: ", routeEquipment);
 
   const routeEquipmentId =
     routeEquipment?.routeEquipment.map((eqId) => eqId.id) || [];
@@ -34,18 +33,9 @@ const ExportClient = ({
       skip: !routeEquipmentId,
     });
 
-  console.log("RouteComponent: ", routeComponent);
-
-  console.log(
-    "Recommendation: ",
-    routeComponent?.routeComponent.map((reco) => reco.recommendations)
-  );
-
   const { graphData, yAxisValues } = useMemo(() => {
     return GraphData(routeComponent);
   }, [routeComponent]);
-
-  console.log("Graph: ", graphData, yAxisValues);
 
   const transformedRecommendationData = useMemo(() => {
     return RecommendationTableData(
@@ -54,18 +44,12 @@ const ExportClient = ({
     );
   }, [routeEquipment, routeComponent]);
 
-  console.log("Transformed Data", transformedRecommendationData);
-
   const transformedAnalysisData = useMemo(() => {
     return AnalysisTableData(
       routeEquipment?.routeEquipment ?? [],
       routeComponent?.routeComponent ?? []
     );
   }, [routeEquipment, routeComponent]);
-
-  console.log("Transformed Analysis Data", transformedAnalysisData);
-
-  console.log(isLoading, isComponentLoading);
 
   return (
     <DialogContent>

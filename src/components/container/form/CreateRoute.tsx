@@ -187,7 +187,6 @@ const CreateRoute = () => {
 
     try {
       const response = await createRoute(finalValues).unwrap();
-      console.log("Route created successfully:", response);
       setSelectedEquipment([]);
       setTimeout(() => {
         form.reset();

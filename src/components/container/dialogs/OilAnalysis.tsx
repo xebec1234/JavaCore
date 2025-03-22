@@ -41,7 +41,6 @@ const OilAnalysis: React.FC<OilAnalysisProps> = ({
     }
 
     const payload = { routeComponentId, analysis };
-    console.log("Data being passed:", payload);
 
     try {
       routeComponentOilAnalysisSchema.parse(payload);

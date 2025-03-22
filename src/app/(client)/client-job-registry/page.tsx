@@ -22,8 +22,6 @@ const JobRegistry = () => {
     useGetClientSeveritiesQuery(undefined, { refetchOnMountOrArgChange: true });
   const severities = severityData?.data || [];
 
-  console.log("hello: ", severityData, session?.user?.id);
-
   const { data, isLoading: jobsLoading } = useGetClientJobsQuery(
     session?.user.id ?? "",
     {

@@ -33,7 +33,7 @@ import { useRouter } from "next/navigation";
 export const useColumns = () => {
   const { data: session } = useSession();
 
-  const router = useRouter()
+  const router = useRouter();
 
   const role = session?.user.role;
 
@@ -295,6 +295,8 @@ export const useColumns = () => {
           woNumber: job.woNumber ?? null,
           reportNumber: job.reportNumber ?? null,
           inspectionRoute: job.inspectionRoute,
+          jobDescription: job.jobDescription,
+          dateSurveyed: job.dateSurveyed,
           routeList: job.routeList
             ? {
                 routeName: job.routeList.routeName,
@@ -307,8 +309,8 @@ export const useColumns = () => {
 
         const viewAnalysis = () => {
           localStorage.setItem("jobNo", job.jobNumber);
-          router.push('/analysis-report')
-        }
+          router.push("/analysis-report");
+        };
 
         return (
           <>

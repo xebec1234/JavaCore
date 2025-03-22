@@ -49,9 +49,7 @@ const ClientActionDialog: React.FC<ClientActionProps> = ({
       woNumber,
       action,
     };
-
-    console.log("Payload:", payload);
-
+    
     try {
       RouteComponentActionSchema.parse(payload);
 

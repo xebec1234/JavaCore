@@ -15,9 +15,7 @@ const Hero = ({
 }) => {
 
   const [active, setActive] = React.useState(false)
-  console.log(active);
   
-
   return (
     <div className="h-screen">
       <div className="relative bg-zinc-800 h-[90%] flex flex-col overflow-hidden [border-bottom-left-radius:100%_25%] [border-bottom-right-radius:100%_25%]">
