@@ -259,7 +259,9 @@ const PdfDocument = ({
       </View>
 
       <Text style={styles.title}>Vibration Analysis Report</Text>
-      <Text style={styles.subtitle}>Pumps VA Report</Text>
+      <Text style={styles.subtitle}>
+        {data?.jobDescription} - {data?.reportNumber}
+      </Text>
 
       <Text style={[styles.details, { marginTop: 50 }]}>
         <Text style={{ fontWeight: "bold" }}>Client :</Text> {data?.user?.name}
@@ -578,7 +580,9 @@ const PdfDocument = ({
       </View>
 
       <View style={styles.pageNumber}>
-        <Text style={{ fontSize: 10 }}>Pumps VA Report</Text>
+        <Text style={{ fontSize: 10 }}>
+          {data?.jobDescription} - {data?.reportNumber}
+        </Text>
         <Text
           style={{ fontSize: 10 }}
           render={({ pageNumber, totalPages }) => (
@@ -660,7 +664,9 @@ const PdfDocument = ({
       </View>
 
       <View style={styles.pageNumber}>
-        <Text style={{ fontSize: 10 }}>Pumps VA Report</Text>
+        <Text style={{ fontSize: 10 }}>
+          {data?.jobDescription} - {data?.reportNumber}
+        </Text>
         <Text
           style={{ fontSize: 10 }}
           render={({ pageNumber, totalPages }) => (
@@ -694,7 +700,9 @@ const PdfDocument = ({
       <AnalysisTable transformedAnalysisData={transformedAnalysisData} />
 
       <View style={styles.pageNumber} fixed>
-        <Text style={{ fontSize: 10 }}>Pumps VA Report</Text>
+        <Text style={{ fontSize: 10 }}>
+          {data?.jobDescription} - {data?.reportNumber}
+        </Text>
         <Text
           style={{ fontSize: 10 }}
           render={({ pageNumber, totalPages }) => (

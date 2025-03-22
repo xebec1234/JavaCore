@@ -179,9 +179,12 @@ export const routeComponentTemperatureSchema = z.object({
 
 export const routeComponentOilAnalysisSchema = z.object({
   routeComponentId: z.string(),
-  analysis: z.enum(["Normal", "Contaminated", "Critical"], {
-    errorMap: () => ({ message: "Choose a valid oil state!" }),
-  }),
+  analysis: z.enum(
+    ["Normal", "Moderate", "Severe", "Critical", "Missed Points"],
+    {
+      errorMap: () => ({ message: "Choose a valid oil state!" }),
+    }
+  ),
 });
 
 export const ClientEquipmentSchema = z.object({
@@ -219,6 +222,8 @@ export type selectedJob = {
   woNumber: string | null;
   reportNumber: string | null;
   inspectionRoute?: string;
+  dateSurveyed: Date;
+  jobDescription: string;
   routeList?: {
     routeName?: string;
     machines?: {
@@ -229,22 +234,22 @@ export type selectedJob = {
 
 export type graphData = {
   label: string;
-  previous?: number; 
+  previous?: number;
   current: number;
-  prevColor?: string; 
+  prevColor?: string;
   currColor: string;
 }[];
 
 export type yAxisValues = number[];
 
-export type Recommendation  = {
+export type Recommendation = {
   id: string;
   priority: string;
   recommendation: string;
   createdAt: Date;
-}
+};
 
-export type Component  = {
+export type Component = {
   component: {
     name: string;
   };
@@ -271,7 +276,7 @@ export type Equipment = {
       name: string;
     };
   };
-}
+};
 
 export type TransformedRecommendation = {
   equipmentGroup: string;
@@ -279,7 +284,7 @@ export type TransformedRecommendation = {
   priority: string;
   action: string;
   date: string;
-}
+};
 
 export type TransformedAnalysis = {
   equipmentGroup: string;
@@ -293,4 +298,3 @@ export type TransformedAnalysis = {
     createdAt: string;
   }[];
 };
-

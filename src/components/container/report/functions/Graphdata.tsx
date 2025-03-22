@@ -57,7 +57,7 @@ const GraphData = (routeComponent?: ReportComponentResponse) => {
   const totalCountData = {
     label: "Total Count",
     current: totalCurrent,
-    currColor: "#808080",
+    currColor: "#4e4edd",
   };
 
   const graphData = [...finalGraphData, totalCountData];
