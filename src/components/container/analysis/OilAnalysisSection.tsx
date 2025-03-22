@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import OilAnalysis from "../dialogs/OilAnalysis";
 import { useGetRouteComponenetOilAnalysisQuery } from "@/store/api";
+import { symbols } from "@/schema";
+import Image from "next/image";
 
 // interface OilAnalyses {
 //   analysis: string;
@@ -49,6 +51,10 @@ const OilAnalysisSection: React.FC<OilAnalysisSectionProps> = ({
     ? routeComponentOilAnalysis?.data || []
     : [];
 
+  const severityMap: Record<string, string> = Object.fromEntries(
+    symbols.map((s) => [s.label, `${s.image}.png`])
+  );
+
   return (
     <div className="flex flex-col gap-3 w-full">
       <div className="flex justify-between items-center">
@@ -84,17 +90,13 @@ const OilAnalysisSection: React.FC<OilAnalysisSectionProps> = ({
                 {showLoading ? (
                   <Skeleton className="w-5 h-5 animate-pulse bg-zinc-200" />
                 ) : oil ? (
-                  <p
-                    className={`w-8 h-8 text-white text-sm font-medium rounded-full flex items-center justify-center ${
-                      oil.analysis === "Normal"
-                        ? "bg-green-700"
-                        : oil.analysis === "Contaminated"
-                        ? "bg-orange-500"
-                        : oil.analysis === "Critical"
-                        ? "bg-red-700"
-                        : "bg-white"
-                    }`}
-                  ></p>
+                  <Image
+                    src={`/severity/${severityMap[String(oil.analysis)]}`}
+                    width={30}
+                    height={30}
+                    alt="Severity Symbol"
+                    className="w-5 object-cover"
+                  />
                 ) : (
                   <div className="w-5 h-5" />
                 )}

@@ -104,6 +104,8 @@ const AnalysisAndReportForm = () => {
     woNumber: string | null;
     reportNumber: string | null;
     inspectionRoute?: string;
+    dateSurveyed: Date;
+    jobDescription: string;
     routeList?: {
       routeName?: string;
       machines?: {
