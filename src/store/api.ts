@@ -298,24 +298,6 @@ export const api = createApi({
     "RouteComponentNote",
   ],
   endpoints: (build) => ({
-    registerClient: build.mutation({
-      query: (data) => ({
-        url: "/api/register",
-        method: "POST",
-        body: data,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }),
-      invalidatesTags: ["Client"],
-    }),
-    getClients: build.query<ClientsResponse, void>({
-      query: () => ({
-        url: "/api/client",
-        method: "GET",
-      }),
-      providesTags: ["Client"],
-    }),
     createJob: build.mutation({
       query: (data) => ({
         url: "/api/job",
@@ -864,6 +846,24 @@ export const authApi = createApi({
         },
       }),
     }),
+    registerClient: build.mutation({
+      query: (data) => ({
+        url: "/api/register",
+        method: "POST",
+        body: data,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["Client"],
+    }),
+    getClients: build.query<ClientsResponse, void>({
+      query: () => ({
+        url: "/api/client",
+        method: "GET",
+      }),
+      providesTags: ["Client"],
+    }),
     changePassword: build.mutation({
       query: (data) => ({
         url: "/api/changePassword",
@@ -917,6 +917,8 @@ export const authApi = createApi({
 });
 
 export const {
+  useRegisterClientMutation,
+  useGetClientsQuery,
   useLoginUserMutation,
   useChangePasswordMutation,
   useGetVerifiedClientQuery,
@@ -926,8 +928,6 @@ export const {
 } = authApi
 
 export const {
-  useRegisterClientMutation,
-  useGetClientsQuery,
   useCreateJobMutation,
   useGetJobsQuery,
   useGetClientJobsQuery,
