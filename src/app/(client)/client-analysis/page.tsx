@@ -122,7 +122,7 @@ const ClientAnalysis = () => {
 
   return (
     <div className="w-full h-full p-3 sm:p-5 flex xl:flex-row flex-col gap-3 sm:gap-5">
-      <div className="w-full xl:w-1/3 p-5 bg-white rounded-xl shadow-lg">
+      <div className="w-full xl:w-1/3 p-5 bg-white rounded-xl shadow-lg lg:sticky lg:top-5 lg:h-[calc(100vh-40px)] lg:overflow-y-auto">
         <h1 className="text-xl sm:text-2xl font-bold">Equipment List</h1>
         <Form {...form}>
           <FormField

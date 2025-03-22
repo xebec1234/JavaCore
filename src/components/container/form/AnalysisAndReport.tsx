@@ -440,13 +440,7 @@ const AnalysisAndReportForm = () => {
         <div
           className={`w-full lg:w-1/3 rounded-xl bg-white flex flex-col p-5 shadow-lg ${
             hideList && "hidden"
-          }`}
-          style={{
-            position: "sticky",
-            top: "10px",
-            maxHeight: "96vh",
-            overflowY: "auto",
-          }}
+          } lg:sticky lg:top-4 lg:max-h-[96vh] lg:overflow-y-auto`}
         >
           <h2 className="font-bold text-lg">
             {selectedEquipment ? selectedEquipment.name : "Equipment List"}
@@ -503,10 +497,6 @@ const AnalysisAndReportForm = () => {
                         name: routeComponent.component.name,
                         routeComponentID: routeComponent?.id,
                         component: routeComponent?.component,
-                        // recommendations: routeComponent.recommendations || [],
-                        // action: routeComponent.action ?? null,
-                        // temperatures: routeComponent.temperatures || [],
-                        // oilAnalyses: routeComponent.oilAnalyses || [],
                       })
                     }
                   >
