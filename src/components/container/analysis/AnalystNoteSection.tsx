@@ -18,8 +18,6 @@ const AnalystNoteSection: React.FC<AnalystNoteSectionProps> = ({
     { skip: !componentId || !clientId }
   );
 
-  console.log("data: ", data);
-
   const latestNote = data?.routeComponentNote?.[0] || null;
   const latestDate = latestNote
     ? new Date(latestNote.createdAt).toLocaleDateString()

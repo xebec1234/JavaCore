@@ -43,8 +43,6 @@ const Comments: React.FC<CommentsProps> = ({
       comment,
     };
 
-    console.log("Payload:", payload);
-
     try {
       routeComponentCommentSchema.parse(payload);
 

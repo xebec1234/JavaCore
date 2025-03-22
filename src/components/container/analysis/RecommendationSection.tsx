@@ -46,7 +46,6 @@ const RecommendationSection: React.FC<RecommendationsSectionProps> = ({
     ? routeComponentRecommendation?.data || []
     : [];
 
-  console.log("extracted data: ", recommendation);
 
   const sortedRecommendation = [...recommendation].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()

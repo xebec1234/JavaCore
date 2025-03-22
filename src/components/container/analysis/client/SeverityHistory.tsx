@@ -61,8 +61,6 @@ const SeverityHistory: React.FC<SeverityHistoryProps> = ({
       : routeComponents?.routeComponentComments.flatMap((rc) => rc.comments) ||
         [];
 
-  console.log("severityhistory: ", comments);
-
   return (
     <div>
       <div className="flex gap-3 flex-wrap mt-3">

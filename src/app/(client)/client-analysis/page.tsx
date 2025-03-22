@@ -84,7 +84,6 @@ const ClientAnalysis = () => {
     }[];
   } | null>(null);
 
-  console.log("fetched data: ", selectedEquipment?.components);
 
   const selectedComponentIds =
     selectedEquipment?.components?.map((comp) => comp.id) || [];
@@ -94,10 +93,10 @@ const ClientAnalysis = () => {
       skip: selectedComponentIds.length === 0,
     });
 
-  const routeComponentIds =
-    selectedComponentData?.selectedComponentData?.flatMap((component) =>
-      component.routeComponent.map((rc) => rc.id)
-    ) ?? [];
+  // const routeComponentIds =
+  //   selectedComponentData?.selectedComponentData?.flatMap((component) =>
+  //     component.routeComponent.map((rc) => rc.id)
+  //   ) ?? [];
 
   const [selectedComponent, setSelectedComponent] = React.useState<{
     id: string;
@@ -108,10 +107,6 @@ const ClientAnalysis = () => {
   } | null>(null);
 
   const lastSelectedEquipment = React.useRef<string | null>(null);
-
-  console.log("captured data: ", selectedComponent);
-
-  console.log("old data: ", routeComponentIds);
 
   const form = useForm<z.infer<typeof ClientEquipmentSchema>>({
     resolver: zodResolver(ClientEquipmentSchema),

@@ -32,8 +32,6 @@ const Temperature: React.FC<TemperatureDialogProps> = ({
       temperature: Number(tempValue),
     };
 
-    console.log("data being passed: ", payload);
-
     try {
       routeComponentTemperatureSchema.parse(payload);
 

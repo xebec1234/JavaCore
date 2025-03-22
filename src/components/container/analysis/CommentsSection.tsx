@@ -51,7 +51,6 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
   );
 
   const comments = selectedComponent ? routeComponentComment?.data || [] : [];
-  console.log("extracted data: ", comments);
 
   const sortedComments = [...comments].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()

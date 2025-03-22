@@ -44,8 +44,6 @@ const Recommendation: React.FC<RecommendationProps> = ({
       recommendation,
     };
 
-    console.log("Payload:", payload);
-
     try {
       routeComponentRecommendationSchema.parse(payload);
 
