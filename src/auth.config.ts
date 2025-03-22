@@ -3,6 +3,10 @@ import type { NextAuthConfig } from "next-auth"
 import { getUserByEmail, loginSchema } from "./schema"
 
 import bcrypt from "bcryptjs"
+
+export const authOptions = {
+  trustHost: true,
+};
  
 export default {
   providers: [
@@ -28,4 +32,4 @@ export default {
       }
     })
   ],
-} satisfies NextAuthConfig
+} satisfies NextAuthConfig;

@@ -81,6 +81,7 @@ const ExportClient = ({
             yAxisValues={yAxisValues}
             transformedRecommendationData={transformedRecommendationData}
             transformedAnalysisData={transformedAnalysisData}
+            loading={isLoading || isComponentLoading}
           />
         </div>
       </div>
