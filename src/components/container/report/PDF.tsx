@@ -355,11 +355,7 @@ const PdfDocument = ({
 
       <Text style={{ fontWeight: "bold", fontSize: 12 }}>Introduction</Text>
       <Text style={[styles.details, { marginTop: 5, fontSize: 10 }]}>
-        A 4-weekly routine vibration survey was conducted to determine the
-        conditions Pumps, to monitor any defect that was previously detected,
-        and to recommend maintenance action based on the severity of machinery’s
-        condition. Oil analysis results and bearing temperatures were also
-        considered in the assessment of machinery’s overall health conditions.
+        {data?.reportIntroduction}
       </Text>
       <Text style={{ fontWeight: "bold", fontSize: 12, marginTop: 15 }}>
         Methodology

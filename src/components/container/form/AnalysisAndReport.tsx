@@ -48,6 +48,7 @@ import OilAnalysisSection from "../analysis/OilAnalysisSection";
 import EquipmentDetailsSection from "../analysis/EquipmentDetailsSection";
 import { Dialog } from "@/components/ui/dialog";
 import ExportAdmin from "../dialogs/ExportAdmin";
+import EditFile from "../dialogs/editableReport/EditFile";
 // import EquipmentList from "../list/analysis-equipment-list/EquipmentList";
 
 const AnalysisAndReportForm = () => {
@@ -60,6 +61,7 @@ const AnalysisAndReportForm = () => {
   const [activeFigure, setActiveFigure] = React.useState("add");
   const [hideList, setHideList] = React.useState(false);
   const [openExport, setOpenExport] = React.useState(false);
+  const [openEditFile, setOpenEditFile] = React.useState(false);
 
   const [searchTerm, setSearchTerm] = React.useState("");
   const { data, isFetching: jobsLoading } = useSearchJobNumberQuery(
@@ -112,6 +114,7 @@ const AnalysisAndReportForm = () => {
         id?: string;
       }[];
     };
+    reportIntroduction?: string | null;
   } | null>(null);
 
   React.useEffect(() => {
@@ -225,14 +228,34 @@ const AnalysisAndReportForm = () => {
                 <h1 className="text-xl sm:text-2xl font-bold text-black">
                   Analysis and Reporting
                 </h1>
-                <Button
-                  onClick={() => setOpenExport(!openExport)}
-                  type="button"
-                  className="bg-main hover:bg-follow text-white"
-                  disabled={!selectedJob}
-                >
-                  Export
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    className="bg-main hover:bg-follow text-white"
+                    onClick={() => setOpenEditFile(!openEditFile)}
+                    disabled={!selectedJob}
+                  >
+                    Edit File
+                  </Button>
+                  <Dialog
+                    aria-describedby={undefined}
+                    open={openEditFile}
+                    onOpenChange={setOpenEditFile}
+                  >
+                    <EditFile
+                      onClose={() => setOpenEditFile(false)}
+                      data={selectedJob}
+                    />
+                  </Dialog>
+                  <Button
+                    onClick={() => setOpenExport(!openExport)}
+                    type="button"
+                    className="bg-main hover:bg-follow text-white"
+                    disabled={!selectedJob}
+                  >
+                    Export
+                  </Button>
+                </div>
                 <Dialog
                   aria-describedby={undefined}
                   open={openExport}
@@ -244,6 +267,7 @@ const AnalysisAndReportForm = () => {
                   />
                 </Dialog>
               </div>
+
               <h2 className="text-base sm:text-lg font-semibold mb-3 mt-3 text-zinc-700">
                 Information
               </h2>

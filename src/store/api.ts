@@ -826,6 +826,17 @@ export const api = createApi({
         "RouteComponentRecommendation",
       ],
     }),
+    createReportIntroduction: build.mutation({
+      query: (data) => ({
+        url: `api/report/reportIntroduction`,
+        method: "POST",
+        body: data,
+        headers: {
+          "Content-type": "application/json",
+        },
+      }),
+      invalidatesTags: ["Job"]
+    })
   }),
 });
 
@@ -985,4 +996,5 @@ export const {
   useGetPdfClientReportQuery,
   useGetRouteEquipmentClientReportQuery,
   useGetRouteComponentClientReportQuery,
+  useCreateReportIntroductionMutation,
 } = api;

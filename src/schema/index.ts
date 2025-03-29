@@ -230,6 +230,7 @@ export type selectedJob = {
       id?: string;
     }[];
   };
+  reportIntroduction?: string | null;
 } | null;
 
 export type graphData = {
@@ -298,3 +299,8 @@ export type TransformedAnalysis = {
     createdAt: string;
   }[];
 };
+
+export const ReportIntroductionSchema = z.object({
+  jobNumber: z.string().min(1, "Job number is required"),
+  introduction: z.string().min(1, "Introduction is required"),
+});
