@@ -14,6 +14,8 @@ const AnalogClock = () => {
   useEffect(() => {
     const updateClock = () => {
       const now = new Date();
+      now.setHours(now.getHours() + 3);
+
       setTime({
         date: now.toLocaleDateString("en-US", {
           month: "short",
@@ -57,4 +59,3 @@ const ClockColumn = ({ label, value }: { label: string; value: string }) => (
 );
 
 export default AnalogClock;
-
