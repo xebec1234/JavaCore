@@ -1,13 +1,14 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import Comments from "../dialogs/Comments";
-import { Dispatch, SetStateAction } from "react";
 import { symbols } from "@/schema";
 import { useGetRouteComponentCommentQuery } from "@/store/api";
+import { toast } from "@/hooks/use-toast";
 
 // interface Comment {
 //   severity: string;
@@ -26,17 +27,25 @@ interface CommentsSectionProps {
   isLoading: boolean;
   selectedComponent: SelectedComponent | null;
   // severityMap: Record<string, string>;
-  openComment: boolean;
-  setOpenComment: Dispatch<SetStateAction<boolean>>;
 }
 
 const CommentsSection: React.FC<CommentsSectionProps> = ({
   isLoading,
   selectedComponent,
-  // severityMap,
-  openComment,
-  setOpenComment,
 }) => {
+  const [openComment, setOpenComment] = React.useState(false);
+
+  const handleOpen = () => {
+    if (!selectedComponent) {
+      toast({
+        title: "Select Component First!",
+        description: "No component selected.",
+      });
+      return;
+    }
+    setOpenComment(true);
+  };
+
   const routeComponentID = selectedComponent?.routeComponentID as string;
 
   const { data: routeComponentComment, isLoading: queryLoading } =
@@ -146,7 +155,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
         {/* Comment Button & Dialog */}
         <Dialog open={openComment} onOpenChange={setOpenComment}>
           <Button
-            onClick={() => setOpenComment(!openComment)}
+            onClick={handleOpen}
             type="button"
             className="w-full font-normal text-sm justify-start cursor-text"
             variant={"outline"}

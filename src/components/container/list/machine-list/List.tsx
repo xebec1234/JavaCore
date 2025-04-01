@@ -32,7 +32,6 @@ import { useSession } from "next-auth/react";
 import UpdatingDialog from "../../dialog/updatingList/UpdatingDialog";
 
 const List = () => {
-  
   const { data: session } = useSession();
 
   const {
@@ -212,7 +211,7 @@ const List = () => {
               : level === 1
               ? "Select a group"
               : level === 2
-              ? "Select a name"
+              ? "Select an equipment"
               : "Components"}
           </h1>
           <div
@@ -324,7 +323,9 @@ const List = () => {
                         />
                       )}
                       <span
-                        className={`${isDeleting ? "px-2" : ""} py-1 rounded md:text-base text-sm`}
+                        className={`${
+                          isDeleting ? "px-2" : ""
+                        } py-1 rounded md:text-base text-sm`}
                       >
                         {item.name}
                       </span>

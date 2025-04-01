@@ -322,11 +322,11 @@ const PdfDocument = ({
       <Text style={{ marginTop: 30, fontWeight: "bold", fontSize: 8 }}>
         Disclaimer:
         <Text style={{ fontWeight: "normal", textAlign: "justify" }}>
-          All reports issued by Java CondiƟon Monitoring (JCM) are a result of
+          All reports issued by Java Condition Monitoring (JCM) are a result of
           testings using the industry approved instruments with current
-          calibration certiﬁcates, and all data is analysed by technicians who
+          calibration certificates, and all data is analysed by technicians who
           have complied with the required industry experience, holding ISO
-          certiﬁcations on their related ﬁeld of practice. Recommendations are
+          certifications on their related field of practice. Recommendations are
           based on, but not limited to, data information, alarm limits, on site
           observation, and criticality of equipment to the line of operation.
           JCM ensures that a thorough assessment of machinery health condition
@@ -335,8 +335,8 @@ const PdfDocument = ({
           to diagnostics and recommendations; the maintenance actions will only
           take place upon the approval of the client’s designated authority, and
           therefore not holding JCM accountable of any indemnity claim or
-          ﬁnancial obligation due to operational losses, machinery damages and
-          other consequences aŌer conducting the maintenance actions
+          financial obligation due to operational losses, machinery damages and
+          other consequences after conducting the maintenance actions.
         </Text>
       </Text>
     </Page>

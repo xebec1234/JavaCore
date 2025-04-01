@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import Temperature from "../dialogs/Temperatures";
 import { useGetRouteComponentTemperatureQuery } from "@/store/api";
+import { toast } from "@/hooks/use-toast";
 
 interface SelectedComponent {
   id: string;
@@ -22,6 +23,17 @@ const TemperatureSection: React.FC<TemperatureSectionProps> = ({
   selectedComponent,
 }) => {
   const [openTemperature, setOpenTemperature] = React.useState(false);
+
+  const handleOpen = () => {
+    if (!selectedComponent) {
+      toast({
+        title: "Select Component First!",
+        description: "No component selected.",
+      });
+      return;
+    }
+    setOpenTemperature(true);
+  };
 
   const routeComponentID = selectedComponent?.routeComponentID as string;
 
@@ -53,7 +65,7 @@ const TemperatureSection: React.FC<TemperatureSectionProps> = ({
         <h1 className="text-sm font-medium">Temperature Record</h1>
         <Dialog open={openTemperature} onOpenChange={setOpenTemperature}>
           <Button
-            onClick={() => setOpenTemperature(!openTemperature)}
+            onClick={handleOpen}
             type="button"
             className="w-auto font-normal text-sm cursor-text"
             variant={"outline"}

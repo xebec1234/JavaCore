@@ -1,36 +1,42 @@
+"use client";
+
+import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import OilAnalysis from "../dialogs/OilAnalysis";
 import { useGetRouteComponenetOilAnalysisQuery } from "@/store/api";
 import { symbols } from "@/schema";
 import Image from "next/image";
-
-// interface OilAnalyses {
-//   analysis: string;
-// }
+import { toast } from "@/hooks/use-toast";
 
 interface SelectedComponent {
   id: string;
   routeComponentID: string;
-  // name: string;
-  // oilAnalyses: OilAnalyses[];
 }
 
 interface OilAnalysisSectionProps {
   isLoading: boolean;
   selectedComponent: SelectedComponent | null;
-  openOilAnalysis: boolean;
-  setOpenOilAnalysis: Dispatch<SetStateAction<boolean>>;
 }
 
 const OilAnalysisSection: React.FC<OilAnalysisSectionProps> = ({
   isLoading,
   selectedComponent,
-  openOilAnalysis,
-  setOpenOilAnalysis,
 }) => {
+  const [openOilAnalysis, setOpenOilAnalysis] = React.useState(false);
+
+  const handleOpen = () => {
+    if (!selectedComponent) {
+      toast({
+        title: "Select Component First!",
+        description: "No component selected.",
+      });
+      return;
+    }
+    setOpenOilAnalysis(true);
+  };
+
   const routeComponentID = selectedComponent?.routeComponentID as string;
 
   const {
@@ -61,7 +67,7 @@ const OilAnalysisSection: React.FC<OilAnalysisSectionProps> = ({
         <h1 className="text-sm font-medium">Oil Analysis</h1>
         <Dialog open={openOilAnalysis} onOpenChange={setOpenOilAnalysis}>
           <Button
-            onClick={() => setOpenOilAnalysis(!openOilAnalysis)}
+            onClick={handleOpen}
             type="button"
             className="w-auto font-normal text-sm cursor-text"
             variant={"outline"}

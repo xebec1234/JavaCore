@@ -54,9 +54,6 @@ import EditFile from "../dialogs/editableReport/EditFile";
 const AnalysisAndReportForm = () => {
   const { toast } = useToast();
 
-  const [openComment, setOpenComment] = React.useState(false);
-  const [openRecommendation, setOpenRecommendation] = React.useState(false);
-  const [openOilAnalysis, setOpenOilAnalysis] = React.useState(false);
   const [activeDrawing, setActiveDrawing] = React.useState("view");
   const [activeFigure, setActiveFigure] = React.useState("add");
   const [hideList, setHideList] = React.useState(false);
@@ -568,9 +565,6 @@ const AnalysisAndReportForm = () => {
               <CommentsSection
                 isLoading={isLoading}
                 selectedComponent={selectedComponent}
-                // severityMap={severityMap}
-                openComment={openComment}
-                setOpenComment={setOpenComment}
               />
             </div>
 
@@ -579,8 +573,6 @@ const AnalysisAndReportForm = () => {
               <RecommendationSection
                 isLoading={isLoading}
                 selectedComponent={selectedComponent}
-                openRecommendation={openRecommendation}
-                setOpenRecommendation={setOpenRecommendation}
               />
             </div>
 
@@ -758,8 +750,6 @@ const AnalysisAndReportForm = () => {
                   <OilAnalysisSection
                     isLoading={isLoading}
                     selectedComponent={selectedComponent}
-                    openOilAnalysis={openOilAnalysis}
-                    setOpenOilAnalysis={setOpenOilAnalysis}
                   />
                 </div>
               </div>

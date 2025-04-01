@@ -1,38 +1,40 @@
 "use client";
 
+import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import Recommendations from "../dialogs/Recommendations";
-import { Dispatch, SetStateAction } from "react";
 import { useGetRouteComponentRecommendationQuery } from "@/store/api";
-
-// interface Recommendation {
-//   priority: string;
-//   recommendation: string;
-//   createdAt: Date;
-// }
+import { toast } from "@/hooks/use-toast";
 
 interface SelectedComponent {
   id: string;
   routeComponentID: string;
-  // name: string;
-  // recommendations: Recommendation[];
 }
 
 interface RecommendationsSectionProps {
   isLoading: boolean;
   selectedComponent: SelectedComponent | null;
-  openRecommendation: boolean;
-  setOpenRecommendation: Dispatch<SetStateAction<boolean>>;
 }
 
 const RecommendationSection: React.FC<RecommendationsSectionProps> = ({
   isLoading,
   selectedComponent,
-  openRecommendation,
-  setOpenRecommendation,
 }) => {
+  const [openRecommendation, setOpenRecommendation] = React.useState(false);
+
+  const handleOpen = () => {
+    if (!selectedComponent) {
+      toast({
+        title: "Select Component First!",
+        description: "No component selected.",
+      });
+      return;
+    }
+    setOpenRecommendation(true);
+  };
+
   const routeComponentID = selectedComponent?.routeComponentID as string;
 
   const { data: routeComponentRecommendation, isLoading: queryLoading } =
@@ -45,7 +47,6 @@ const RecommendationSection: React.FC<RecommendationsSectionProps> = ({
   const recommendation = selectedComponent
     ? routeComponentRecommendation?.data || []
     : [];
-
 
   const sortedRecommendation = [...recommendation].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -124,7 +125,7 @@ const RecommendationSection: React.FC<RecommendationsSectionProps> = ({
 
         <Dialog open={openRecommendation} onOpenChange={setOpenRecommendation}>
           <Button
-            onClick={() => setOpenRecommendation(!openRecommendation)}
+            onClick={handleOpen}
             type="button"
             className="w-full font-normal text-sm justify-start cursor-text"
             variant={"outline"}
