@@ -690,47 +690,6 @@ const AnalysisAndReportForm = () => {
             {/* ####################### EQUIPMENT MECHANICAL DETAILS ######################### */}
 
             <div className="flex flex-col md:flex-row gap-3 mt-3">
-              {/* <div className="flex flex-col gap-3 w-full md:w-1/2">
-                <h1 className="text-sm font-medium">
-                  Equipment Mechanical Details
-                </h1>
-                <div className="border rounded-lg p-3">
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setActiveDetail("add")}
-                      type="button"
-                      className={`flex gap-1 items-center px-2 py-1 rounded-md ${
-                        activeDetail === "add" && "bg-zinc-200"
-                      }`}
-                    >
-                      <Plus className="text-zinc-600" size={15} />
-                      <h1 className="text-sm text-zinc-600">Add</h1>
-                    </button>
-                    <button
-                      onClick={() => setActiveDetail("edit")}
-                      type="button"
-                      className={`flex gap-1 items-center px-2 py-1 rounded-md ${
-                        activeDetail === "edit" && "bg-zinc-200"
-                      }`}
-                    >
-                      <Edit className="text-zinc-600" size={15} />
-                      <h1 className="text-sm text-zinc-600">Edit</h1>
-                    </button>
-                    <button
-                      onClick={() => setActiveDetail("delete")}
-                      type="button"
-                      className={`flex gap-1 items-center px-2 py-1 rounded-md ${
-                        activeDetail === "delete" && "bg-zinc-200"
-                      }`}
-                    >
-                      <Trash className="text-zinc-600" size={15} />
-                      <h1 className="text-sm text-zinc-600">Delete</h1>
-                    </button>
-                  </div>
-                  <div className="w-full h-[1px] bg-zinc-200 mt-3" />
-                </div>
-              </div> */}
-
               <EquipmentDetailsSection
                 isLoading={isLoading}
                 selectedComponent={selectedComponent}
