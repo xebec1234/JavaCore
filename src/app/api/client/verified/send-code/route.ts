@@ -3,11 +3,11 @@ import { prisma } from "@/lib/db";
 import { auth } from "@/auth";
 
 import { generateOtp } from "@/lib/generate-otp";
-import { Resend } from "resend";
-import { VerificationTemplate } from "@/components/container/mails/Verification";
+
+import nodemailer from "nodemailer";
 
 export async function POST() {
-    const resend = new Resend(process.env.RESEND_API_KEY);
+
     try {
         const session = await auth()
         if (!session) {
@@ -37,16 +37,23 @@ export async function POST() {
                 otpCooldown: new Date(now.getTime() + 60 * 1000),
                 otpExpires: new Date(now.getTime() + 5 * 60 * 1000)
             }
-        })     
-
-        const emailContent = await VerificationTemplate({ code });
-
-        await resend.emails.send({
-            from: 'Acme <onboarding@resend.dev>',
-            to: [`${session.user.email}`],
-            subject: 'Sample',
-            react: emailContent,
-        });
+        })    
+        
+        const transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                      user: process.env.EMAIL_USER,
+                      pass: process.env.EMAIL_PASS,
+                    },
+                  });
+                  const mailOptions = {
+                    from: process.env.EMAIL_USER,
+                    to: session.user.email,
+                    subject: 'Sample',
+                    text: `Here's your code: ${code}!`,
+                  };
+        
+                await transporter.sendMail(mailOptions);
         
         return NextResponse.json({ message: 'Sent Code Successfully', success: true});
     } catch (error) {

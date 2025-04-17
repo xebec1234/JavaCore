@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/auth";
 
-import { Resend } from 'resend';
-import { EmailTemplate } from '@/components/container/mails/Welcome';
+import nodemailer from "nodemailer";
 
 export async function GET(req: Request) {
 
@@ -50,7 +49,6 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-    const resend = new Resend(process.env.RESEND_API_KEY);
     const body = await req.json()
     try {
         const session = await auth()
@@ -70,14 +68,22 @@ export async function POST(req: Request) {
             }
         })
 
-        const emailContent = await EmailTemplate({ name });
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+          });
 
-        await resend.emails.send({
-            from: 'Acme <onboarding@resend.dev>',
-            to: [`${email}`],
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
             subject: 'Sample',
-            react: emailContent,
-        });
+            text: `Welcome to Java Condition Monitoring ${name}!`,
+          };
+
+        await transporter.sendMail(mailOptions);
 
         return NextResponse.json({ message: 'Client fetched successfully', success: true});
     } catch (error) {
